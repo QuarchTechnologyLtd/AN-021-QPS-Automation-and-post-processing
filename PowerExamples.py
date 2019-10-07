@@ -9,8 +9,12 @@ We will record at a high rate and post process down to a lower rate, ending with
 
 ########### INSTRUCTIONS ###########
 
-1- Connect a Quarch power module to your PC via USB or LAN
+1- Connect a Quarch power module to your PC via USB or LAN and power it on
+2- Ensure quarcypy is installed
 2- On startup, select the options for the device you wish to test
+
+NOTE: QPS v1.09 does not support spaces in the CSV output path, so this script must be run in a folder path with no space
+      or alter the output path to a suitable folder
 
 ####################################
 '''
@@ -85,10 +89,14 @@ def main():
     # Wait for a few seconds to record data then stop the stream
     time.sleep(5)    
     myStream.stopStream()
+    # Wait for remaining stream data to save and complete, otherwise the export will fail
+    time.sleep(2)   
 
-    # Request raw CSV data from the stream, into the local folder
-    rawOutputPath = streamPath + "\\RawData100us.csv"
-    msg = myQpsDevice.sendCommand ("$save csv \"" + rawOutputPath + "\" -l1000000 -s\",\"")
+    # Request raw CSV data from the stream, into the local folder (NOTE: current QPS does not support spaces in the export path)
+    rawOutputPath = streamPath + "\\RawData100us.csv"    
+    export_command = "$save csv \"" + rawOutputPath + "\" -l1000000"    
+    print (export_command)
+    msg = myQpsDevice.sendCommand (export_command)
     if (msg != "OK"):
         print ("Failed export CSV data: " + msg)
 
