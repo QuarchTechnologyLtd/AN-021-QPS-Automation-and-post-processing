@@ -19,7 +19,8 @@ NOTE: QPS v1.09 does not support spaces in the CSV output path, so this script m
 ####################################
 '''
 
-import os, time
+import os
+import time
 
 import quarchpy
 from quarchpy.device import *
@@ -56,7 +57,7 @@ def main():
     myDeviceID = GetQpsModuleSelection (myQps)
 
     # Create a Quarch device connected via QPS
-    myQuarchDevice = quarchDevice (myDeviceID, ConType = "QPS")
+    myQuarchDevice = getQuarchDevice(myDeviceID, ConType = "QPS")
     
     # Upgrade Quarch device to QPS device
     myQpsDevice = quarchQPS(myQuarchDevice)
@@ -66,7 +67,7 @@ def main():
     print ("MODULE CONNECTED: \n" + myQpsDevice.sendCommand ("*idn?"))
     
     print ("-Waiting for drive to be ready")
-    # Setup the voltage mode and enable the outputs.  This is used so the script is compatible with older XLC modules which do not autodetect the fixtures
+    # Setup the voltage mode and enable the outputs. This is used so the script is compatible with older XLC modules which do not autodetect the fixtures
     setupPowerOutput (myQpsDevice)    
     # Wait for device to power up and become ready (you can start your workloads here if needed)
     time.sleep(5)
@@ -93,9 +94,9 @@ def main():
     time.sleep(2)   
 
     # Request raw CSV data from the stream, into the local folder (NOTE: current QPS does not support spaces in the export path)
-    rawOutputPath = streamPath + "\\RawData100us.csv"    
-    export_command = "$save csv \"" + rawOutputPath + "\" -l1000000"    
-    print (export_command)
+    rawOutputPath = streamPath + "\\RawData100us.csv"
+    export_command = "$save csv \"" + rawOutputPath + "\" -l1000000"
+    print(export_command)
     msg = myQpsDevice.sendCommand (export_command)
     if (msg != "OK"):
         print ("Failed export CSV data: " + msg)
