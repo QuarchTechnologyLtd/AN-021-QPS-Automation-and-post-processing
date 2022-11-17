@@ -110,8 +110,8 @@ def main():
     post_process_resample (rawOutputPath, 10, streamPath + "\\PostData1ms.csv")
 
     
-# Post process and resample the CSV file (for now assuming all data is in one file, v1.09 maxes out at 100k lines right now in a single file, this limit will be removed in the next version)    
-# Assumes standard channels are enabled for this example, this could be automated by parsing the stream header to see the record channels
+# Post process and resample the CSV file (for now assuming all data is in one file, QPS v1.09 maxes out at 100k lines right now in a single file, this limit will be removed in the next version)    
+# Assumes first column is time and next (max 8) columns are data or empty, this could be automated by parsing the stream header to see the record channels and setting up dynamically
 def post_process_resample (raw_file_path, resample_count, output_file_path):    
     # Init variables
     firstLine = True
@@ -141,8 +141,10 @@ def post_process_resample (raw_file_path, resample_count, output_file_path):
                 # Update to the latest time point
                 procData[0] = lineSections[0]
                 # Sum the values for all other columns
-                for i in range (1, number_of_columns):                                    
-                    procData[i] += int(lineSections[i])
+                for i in range (1, number_of_columns):     
+                    # Avoid crash on blank cells (happens with unused columns)
+                    if (lineSections[i] != ''):
+                        procData[i] += int(lineSections[i])
                 stripeCount += 1
 
                 # When we have enough data to complete one output line we can process it
