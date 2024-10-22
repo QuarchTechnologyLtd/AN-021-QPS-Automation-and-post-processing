@@ -6,6 +6,18 @@ We will record at a high rate and post process down to a lower rate, ending with
 ########### VERSION HISTORY ###########
 
 03/10/2019 - Andy Norrie     - First Version
+18/10/2024 - Nabil Ghayyda   - Updated Header
+
+########### REQUIREMENTS ###########
+
+1- Python (3.x recommended)
+    https://www.python.org/downloads/
+2- Quarchpy python package
+    https://quarch.com/products/quarchpy-python-package/
+3- Quarch USB driver (Required for USB connected devices on Windows only)
+    https://quarch.com/downloads/driver/
+4- Check USB permissions if using Linux:
+    https://quarch.com/support/faqs/usb/
 
 ########### INSTRUCTIONS ###########
 
@@ -37,11 +49,12 @@ def main():
     # Required min version for this application note
     quarchpy.requiredQuarchpyVersion ("2.0.9")
     
-    # Display title text
-    print ("\n################################################################################\n")
-    print ("\n                           QUARCH TECHNOLOGY                                  \n\n")
-    print ("Automated capture and post processing with Quarch Power Studio.                     ")
-    print ("\n################################################################################\n")  
+    # If required you can enable python logging, quarchpy supports this and your log file
+    # will show the process of scanning devices and sending the commands.  Just comment out
+    # the line below.  This can be useful to send to quarch if you encounter errors
+    # logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+    print("\n\nQuarch application note example: AN-021")
+    print("---------------------------------------\n\n")
 
     print ("-Starting QPS")
     # Checks is QPS is running on the localhost
