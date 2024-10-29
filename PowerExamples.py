@@ -25,9 +25,6 @@ We will record at a high rate and post process down to a lower rate, ending with
 2- Ensure quarcypy is installed
 2- On startup, select the options for the device you wish to test
 
-NOTE: QPS v1.09 does not support spaces in the CSV output path, so this script must be run in a folder path with no space
-      or alter the output path to a suitable folder
-
 ####################################
 '''
 
